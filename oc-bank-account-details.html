@@ -43,7 +43,7 @@
           this.$.bank.value = bankAccountDetails.bank;
           this.$.branchCode.value = bankAccountDetails.branchCode;
           this.$.branchName.value = bankAccountDetails.branchName;
-          //this.$.accountType.
+          this.$.accountType.select(this.$.accountType.indexOf(bankAccountDetails.accountType));
       },
 
       /**
@@ -60,8 +60,21 @@
           branchName: this.$.branchName.value,
           accountType: this.$.accountType.selectedItem.value
         };
-      }
+      },
 
+      /**
+       * Check if the current account details are valid
+       * @returns {Boolean}
+       */
+      isValid: function() {
+        return !(this.$.holderName.invalid ||
+        this.$.holderSurname.invalid ||
+        this.$.accountNumber.invalid ||
+        this.$.bank.invalid ||
+        this.$.branchCode.invalid ||
+        this.$.branchName.invalid ||
+        this.$.accountType.invalid)
+      }
     });
   </script>
 </dom-module>
