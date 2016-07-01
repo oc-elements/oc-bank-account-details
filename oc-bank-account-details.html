@@ -13,14 +13,14 @@
       }
     </style>
 
-    <paper-input id="holderName" label="Account Holder Name" required auto-validate error-message="Please provide an account holder name"></paper-input>
-    <paper-input id="holderSurname" label="Account Holder Surname" required auto-validate error-message="Please provide an account holder surname"></paper-input>
+    <paper-input id="accountHolderName" label="Account Holder Name" required auto-validate error-message="Please provide an account holder name"></paper-input>
+    <paper-input id="accountHolderSurname" label="Account Holder Surname" required auto-validate error-message="Please provide an account holder surname"></paper-input>
     <paper-input id="accountNumber" label="Account Number" required auto-validate allowed-pattern="[0-9]" error-message="Please provide an account number"></paper-input>
     <paper-input id="bank" label="Bank" required auto-validate error-message="Please provide a bank name"></paper-input>
     <paper-input id="branchCode" label="Branch Code" required auto-validate allowed-pattern="[0-9]" error-message="Please provide a branch code"></paper-input>
     <paper-input id="branchName" label="Branch Name" required auto-validate error-message="Please provide a branch name"></paper-input>
-    <paper-dropdown-menu id="accountType" label="Account Type">
-      <paper-listbox class="dropdown-content" selected="0">
+    <paper-dropdown-menu label="Account Type">
+      <paper-listbox id="accountType" class="dropdown-content" selected="0">
         <paper-item>Cheque</paper-item>
         <paper-item>Savings</paper-item>
       </paper-listbox>
@@ -34,16 +34,16 @@
 
       /**
        * Set the bank account details
-       * @param {{holderName: String, holderSurname: String, accountNumber: Number, bank: String, branchCode: Number, branchName: String, accountType: String}} bankAccountDetails
+       * @param {{accountHolderName: String, accountHolderSurname: String, accountNumber: Number, bank: String, branchCode: Number, branchName: String, accountType: String}} bankAccountDetails
        */
       setBankAccountDetails: function(bankAccountDetails) {
-          this.$.holderName.value = bankAccountDetails.holderName;
-          this.$.holderSurname.value = bankAccountDetails.holderSurname;
-          this.$.accountNumber.value = bankAccountDetails.accountNumber;
-          this.$.bank.value = bankAccountDetails.bank;
-          this.$.branchCode.value = bankAccountDetails.branchCode;
-          this.$.branchName.value = bankAccountDetails.branchName;
-          this.$.accountType.select(this.$.accountType.indexOf(bankAccountDetails.accountType));
+        this.$.accountHolderName.value = bankAccountDetails.accountHolderName;
+        this.$.accountHolderSurname.value = bankAccountDetails.accountHolderSurname;
+        this.$.accountNumber.value = bankAccountDetails.accountNumber;
+        this.$.bank.value = bankAccountDetails.bank;
+        this.$.branchCode.value = bankAccountDetails.branchCode;
+        this.$.branchName.value = bankAccountDetails.branchName;
+        this.$.accountType.selected = bankAccountDetails.accountType;
       },
 
       /**
@@ -52,14 +52,16 @@
        */
       getBankAccountDetails: function() {
         return {
-          holderName: this.$.holderName.value,
-          holderSurname: this.$.holderSurname.value,
+          accountHolderName: this.$.accountHolderName.value,
+          accountHolderSurname: this.$.accountHolderSurname.value,
           accountNumber: this.$.accountNumber.value,
           bank: this.$.bank.value,
           branchCode: this.$.branchCode.value,
           branchName: this.$.branchName.value,
-          accountType: this.$.accountType.selectedItem.value
-        };
+          accountType: this.$.accountType.selected,
+          clientNo: null,
+          id: null
+        }
       },
 
       /**
@@ -67,14 +69,47 @@
        * @returns {Boolean}
        */
       isValid: function() {
-        return !(this.$.holderName.invalid ||
-        this.$.holderSurname.invalid ||
+        return !(this.$.accountHolderName.invalid ||
+        this.$.accountHolderSurname.invalid ||
         this.$.accountNumber.invalid ||
         this.$.bank.invalid ||
         this.$.branchCode.invalid ||
         this.$.branchName.invalid ||
         this.$.accountType.invalid)
+      },
+
+      /**
+       * Check if the current account details are valid
+       * @returns {Boolean}
+       */
+      clear: function() {
+        this.$.accountHolderName.autoValidate = false;
+        this.$.accountHolderName.value = "";
+        this.$.accountHolderName.autoValidate = true;
+
+        this.$.accountHolderSurname.autoValidate = false;
+        this.$.accountHolderSurname.value = "";
+        this.$.accountHolderSurname.autoValidate = true;
+
+        this.$.accountNumber.autoValidate = false;
+        this.$.accountNumber.value = "";
+        this.$.accountNumber.autoValidate = true;
+
+        this.$.bank.autoValidate = false;
+        this.$.bank.value = "";
+        this.$.bank.autoValidate = true;
+
+        this.$.branchCode.autoValidate = false;
+        this.$.branchCode.value = "";
+        this.$.branchCode.autoValidate = true;
+
+        this.$.branchName.autoValidate = false;
+        this.$.branchName.value = "";
+        this.$.branchName.autoValidate = true;
+
+        this.$.accountType.selected = 0;
       }
-    });
+    })
+
   </script>
 </dom-module>
